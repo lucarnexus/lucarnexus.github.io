@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LucarNexus</title>
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            color: #e0e0e0;
+            background: #0a0a0f;
+            overflow-x: hidden;
+        }
+
+        /* Animated gradient background */
+        .bg {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            background: radial-gradient(ellipse at 20% 50%, rgba(88, 28, 135, 0.15), transparent 60%),
+                        radial-gradient(ellipse at 80% 20%, rgba(15, 82, 186, 0.12), transparent 50%),
+                        radial-gradient(ellipse at 60% 80%, rgba(6, 95, 70, 0.1), transparent 50%);
+        }
+
+        /* Stars */
+        .stars {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            background-image:
+                radial-gradient(1px 1px at 10% 20%, rgba(255,255,255,0.6), transparent),
+                radial-gradient(1px 1px at 30% 70%, rgba(255,255,255,0.4), transparent),
+                radial-gradient(1.5px 1.5px at 50% 10%, rgba(255,255,255,0.7), transparent),
+                radial-gradient(1px 1px at 70% 40%, rgba(255,255,255,0.5), transparent),
+                radial-gradient(1px 1px at 90% 80%, rgba(255,255,255,0.4), transparent),
+                radial-gradient(1.5px 1.5px at 15% 90%, rgba(255,255,255,0.6), transparent),
+                radial-gradient(1px 1px at 85% 60%, rgba(255,255,255,0.3), transparent),
+                radial-gradient(1px 1px at 45% 45%, rgba(255,255,255,0.5), transparent);
+            animation: twinkle 4s ease-in-out infinite alternate;
+        }
+
+        @keyframes twinkle { 0% { opacity: 0.6; } 100% { opacity: 1; } }
+
+        /* Nav */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1.2rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(12px);
+            background: rgba(10, 10, 15, 0.7);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 1.4rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #a78bfa, #60a5fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.02em;
+        }
+
+        nav a {
+            color: #aaa;
+            text-decoration: none;
+            margin-left: 2rem;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+
+        nav a:hover { color: #fff; }
+
+        /* Hero */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 800;
+            line-height: 1.1;
+            background: linear-gradient(135deg, #c084fc, #60a5fa, #34d399);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1.2rem;
+        }
+
+        .hero p {
+            font-size: 1.15rem;
+            color: #999;
+            max-width: 540px;
+            line-height: 1.7;
+            margin-bottom: 2.5rem;
+        }
+
+        .btn-row { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.8rem;
+            border-radius: 9999px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn:hover { transform: translateY(-2px); }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #7c3aed, #3b82f6);
+            color: #fff;
+            box-shadow: 0 4px 24px rgba(124, 58, 237, 0.3);
+        }
+
+        .btn-primary:hover { box-shadow: 0 6px 32px rgba(124, 58, 237, 0.45); }
+
+        .btn-secondary {
+            border: 1px solid rgba(255,255,255,0.15);
+            color: #ccc;
+            background: rgba(255,255,255,0.04);
+        }
+
+        .btn-secondary:hover { background: rgba(255,255,255,0.08); color: #fff; }
+
+        /* Sections */
+        section {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 6rem 2rem;
+        }
+
+        section h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: #f0f0f0;
+        }
+
+        /* Projects grid */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 16px;
+            padding: 2rem;
+            transition: border-color 0.3s, transform 0.3s;
+        }
+
+        .card:hover {
+            border-color: rgba(124, 58, 237, 0.4);
+            transform: translateY(-4px);
+        }
+
+        .card-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .card h3 {
+            font-size: 1.15rem;
+            margin-bottom: 0.5rem;
+            color: #f0f0f0;
+        }
+
+        .card p {
+            font-size: 0.9rem;
+            color: #888;
+            line-height: 1.6;
+        }
+
+        /* About */
+        .about-content {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto;
+            color: #999;
+            line-height: 1.8;
+            font-size: 1.05rem;
+        }
+
+        /* Skills */
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+
+        .tag {
+            padding: 0.4rem 1rem;
+            border-radius: 9999px;
+            font-size: 0.8rem;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.08);
+            color: #aaa;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 3rem 2rem;
+            color: #555;
+            font-size: 0.85rem;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        footer a { color: #777; text-decoration: none; margin: 0 0.75rem; }
+        footer a:hover { color: #fff; }
+
+        .socials { margin-bottom: 1rem; }
+    </style>
+</head>
+<body>
+    <div class="bg"></div>
+    <div class="stars"></div>
+
+    <nav>
+        <div class="logo">LucarNexus</div>
+        <div>
+            <a href="#projects">Projects</a>
+            <a href="#about">About</a>
+            <a href="/privacy">Privacy</a>
+        </div>
+    </nav>
+
+    <div class="hero">
+        <h1>Building Apps<br>That Matter</h1>
+        <p>Independent developer crafting mobile experiences on Android and iOS. Focused on clean design, useful features, and respect for users.</p>
+        <div class="btn-row">
+            <a class="btn btn-primary" href="#projects">View Projects</a>
+            <a class="btn btn-secondary" href="https://github.com/lucarnexus">GitHub</a>
+        </div>
+    </div>
+
+    <section id="projects">
+        <h2>Projects</h2>
+        <div class="grid">
+            <div class="card">
+                <div class="card-icon">&#9889;</div>
+                <h3>Coming Soon</h3>
+                <p>A new Android app is in the works. Stay tuned for launch on Google Play.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">&#127912;</div>
+                <h3>Open Source</h3>
+                <p>Check out contributions and side projects on GitHub. Collaboration is always welcome.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">&#128241;</div>
+                <h3>Cross-Platform</h3>
+                <p>Expanding to iOS soon. One vision, multiple platforms, native quality everywhere.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="about">
+        <h2>About</h2>
+        <div class="about-content">
+            <p>Hi, I'm the developer behind LucarNexus. I build mobile apps with a focus on simplicity and user experience. I believe great software should be intuitive, fast, and respectful of your privacy.</p>
+        </div>
+        <div class="tags">
+            <span class="tag">Android</span>
+            <span class="tag">Kotlin</span>
+            <span class="tag">iOS</span>
+            <span class="tag">Swift</span>
+            <span class="tag">Firebase</span>
+            <span class="tag">Jetpack Compose</span>
+            <span class="tag">UI/UX</span>
+        </div>
+    </section>
+
+    <footer>
+        <div class="socials">
+            <a href="https://github.com/lucarnexus">GitHub</a>
+            <a href="mailto:lucarssong@gmail.com">Email</a>
+            <a href="/privacy">Privacy Policy</a>
+        </div>
+        <p>&copy; 2026 LucarNexus. All rights reserved.</p>
+    </footer>
+</body>
+</html>
